@@ -1,6 +1,6 @@
 package com.example.hackathon_2k24.ui.theme
 
-import android.app.Activity
+import android.content.res.Configuration
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -10,6 +10,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 
 private val DarkColorScheme = darkColorScheme(
     primary = PrimaryColorDarkV1,
@@ -34,7 +35,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun Hackathon2k24Theme(
+fun BaseTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
@@ -55,3 +56,10 @@ fun Hackathon2k24Theme(
       content = content
     )
 }
+@Preview(
+    name = "Light Mode",
+    group = "UI Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL,
+    showBackground = true
+)
+annotation class DarkLightPreviews

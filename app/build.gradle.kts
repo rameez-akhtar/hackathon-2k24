@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("org.jetbrains.kotlin.kapt")
+    alias(libs.plugins.dagger.hilt) // Hilt plugin
 }
 
 android {
@@ -27,6 +29,15 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "APP_URL", "${project.property("prodUrlDev")}")
+        }
+        debug {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            buildConfigField("String", "APP_URL", "${project.property("baseUrlDev")}")
         }
     }
     compileOptions {
@@ -38,6 +49,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -53,6 +65,10 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.hiltx.android)
+    implementation(libs.androidx.navigation.compose) // Add Hilt dependencies
+    kapt(libs.hiltx.compiler)
+    implementation(libs.hilt.navigation.compose) // Hilt Navigation Compose
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -60,9 +76,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.dagger.hilt.android)
-    implementation(libs.dagger.hilt.compiler)
-    implementation(libs.dagger.hilt.navigation.compose)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson.converter)
     testImplementation(libs.junit)
